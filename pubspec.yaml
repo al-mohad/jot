@@ -1,7 +1,9 @@
 name: jot
 description: "A Flutter package for logging and debugging."
 version: 0.0.1
-homepage:
+homepage: https://github.com/al-mohad/jot
+repository: https://github.com/al-mohad/jot
+issue_tracker: https://github.com/al-mohad/jot/issues
 
 environment:
   sdk: ^3.11.0
