@@ -12,7 +12,7 @@ abstract class JotLogger {
   void Function(LogEntry)? onLog;
 
   /// Initializes the logger.
-  Future<void> init();
+  Future<void> init([String? name]);
 
   /// Disposes the logger resources.
   Future<void> dispose();

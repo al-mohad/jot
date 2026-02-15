@@ -1,6 +1,6 @@
 name: jot
-description: "A Flutter package for logging and debugging."
-version: 0.0.1
+description: "Jot is a premium Flutter logging package that provides styled console output, circular memory buffers for recent logs, and easy export functionality for debugging."
+version: 1.0.0
 homepage: https://github.com/al-mohad/jot
 repository: https://github.com/al-mohad/jot
 issue_tracker: https://github.com/al-mohad/jot/issues

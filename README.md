@@ -25,11 +25,11 @@ dependencies:
 
 ### Initialization
 
-Initialize Jot in your `main()` function:
+Initialize Jot in your `main()` function. You can optionally provide a `name` to identify the logger:
 
 ```dart
 void main() async {
-  await Jot.init();
+  await Jot.init('MyApp');
   runApp(MyApp());
 }
 ```

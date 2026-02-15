@@ -16,6 +16,9 @@ class DefaultJotLogger implements JotLogger {
   static final AnsiPen _errorPen = AnsiPen()..red();
   static final AnsiPen _successPen = AnsiPen()..green();
 
+  // region State & Configuration
+  String _name = 'Jot';
+
   /// Memory-safe buffer for recent logs (Circular buffer of 500 entries).
   final _logBuffer = ListQueue<LogEntry>(500);
 
@@ -45,11 +48,14 @@ class DefaultJotLogger implements JotLogger {
 
     return buffer.toString();
   }
+  // endregion
 
+  // region Lifecycle
   @override
-  Future<void> init() async {
+  Future<void> init([String? name]) async {
+    if (name != null) _name = name;
     ansiColorDisabled = kReleaseMode;
-    info('🚀 Jot Logger initialized');
+    info('🚀 $_name Logger initialized');
   }
 
   @override
@@ -57,13 +63,16 @@ class DefaultJotLogger implements JotLogger {
     info('Jot Logger disposed');
     _logBuffer.clear();
   }
+  // endregion
+
+  // region Logging Methods
 
   @override
   void trace(Object? o) {
     final message = _stringify(o);
     _addBuffer(LogType.trace, message);
     if (kReleaseMode) return;
-    dev.log(_tracePen(message), name: 'Jot');
+    dev.log(_tracePen(message), name: _name);
   }
 
   @override
@@ -71,7 +80,7 @@ class DefaultJotLogger implements JotLogger {
     final message = _stringify(o);
     _addBuffer(LogType.debug, message);
     if (kReleaseMode) return;
-    dev.log(_debugPen(message), name: 'Jot');
+    dev.log(_debugPen(message), name: _name);
   }
 
   @override
@@ -79,7 +88,7 @@ class DefaultJotLogger implements JotLogger {
     final message = _stringify(o);
     _addBuffer(LogType.info, message);
     if (kReleaseMode) return;
-    dev.log(_infoPen(message), name: 'Jot');
+    dev.log(_infoPen(message), name: _name);
   }
 
   @override
@@ -87,7 +96,7 @@ class DefaultJotLogger implements JotLogger {
     final message = _stringify(o);
     _addBuffer(LogType.warn, message);
     if (kReleaseMode) return;
-    dev.log('⚠️ ${_warningPen(message)}', name: 'Jot', level: 900);
+    dev.log('⚠️ ${_warningPen(message)}', name: _name, level: 900);
   }
 
   @override
@@ -97,7 +106,7 @@ class DefaultJotLogger implements JotLogger {
     if (kReleaseMode) return;
     dev.log(
       '❌ ${_errorPen(message)}',
-      name: 'Jot',
+      name: _name,
       level: 1000,
       error: error,
       stackTrace: stackTrace,
@@ -109,8 +118,11 @@ class DefaultJotLogger implements JotLogger {
     final message = _stringify(o);
     _addBuffer(LogType.success, message);
     if (kReleaseMode) return;
-    dev.log('✅ ${_successPen(message)}', name: 'Jot', level: 500);
+    dev.log('✅ ${_successPen(message)}', name: _name, level: 500);
   }
+  // endregion
+
+  // region Private Helpers & Formatting
 
   void _addBuffer(
     LogType type,
@@ -145,3 +157,5 @@ class DefaultJotLogger implements JotLogger {
     return '$o';
   }
 }
+
+// endregion
